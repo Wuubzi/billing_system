@@ -13,7 +13,7 @@ public class SmsService {
 
     @PostConstruct
     public void initTwilio() {
-        Twilio.init("AC314452e027127811dc8c2b256beb907a", "3b66529a3d17d3d4c29112edb11103cb");
+        Twilio.init("", "");
     }
     public String sendSms(String destinationPhone, String messageText){
 
