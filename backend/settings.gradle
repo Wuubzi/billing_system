@@ -1,0 +1,6 @@
+rootProject.name = 'backend'
+include('config')
+include('eureka')
+include('gateway')
+include('auth')
+include('notification')
