@@ -1,0 +1,75 @@
+<main class="flex p-5 justify-around items-center font-primary">
+  <figure class="w-1/4">
+    <img
+      class="w-full"
+      src="./assets/images/logo.svg"
+      alt="Kanban logo with a stylized K and check mark inside a blue hexagon"
+    />
+  </figure>
+  <div class="flex flex-col gap-2 justify-center items-center">
+    <figure class="w-15">
+      <img class="w-full" src="./assets/images/logo2.svg" alt="" />
+    </figure>
+    <h2 class="text-3xl font-semibold">Log in to your account</h2>
+    <p class="text-sm text-primary">
+      Welcome Back! please enter your credentials
+    </p>
+    <form
+      class="flex flex-col gap-1"
+      [formGroup]="loginForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="email" class="">Email</label>
+      <input
+        class="w-full px-4 py-2 border-2 border-border rounded-lg text-playholder"
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Enter your email"
+        formControlName="email"
+      />
+      @if (email?.invalid && email?.touched) {
+        @if (email?.hasError("required")) {
+          <p class="text-red-500">Email is required</p>
+        }
+        @if (email?.hasError("email")) {
+          <p class="text-red-500">Email is not valid</p>
+        }
+      }
+      <label for="password">Password</label>
+      <input
+        class="w-full px-4 py-2 border-2 border-border rounded-lg text-playholder"
+        type="password"
+        name="password"
+        id="password"
+        placeholder="Enter your password"
+        formControlName="password"
+      />
+
+      @if (password?.invalid && password?.touched) {
+        @if (password?.hasError("required")) {
+          <p class="text-red-500">Password is required</p>
+        }
+      }
+      <p class="self-end">
+        <a class="text-blue-700" href="/forgot-password">Forgot Password?</a>
+      </p>
+      <button
+        [disabled]="loginForm.invalid"
+        [ngClass]="{
+          'bg-blue-600 hover:scale-110 cursor-pointer': loginForm.valid,
+          'bg-gray-400 cursor-not-allowed opacity-60': loginForm.invalid,
+        }"
+        class="mt-2 w-full py-2 rounded-lg text-white transition-all"
+        type="submit"
+        [disabled]="loginForm.invalid"
+      >
+        Sign in
+      </button>
+    </form>
+    <p>
+      Don't have an account?
+      <a class="text-blue-700" href="/register">Sign up</a>
+    </p>
+  </div>
+</main>

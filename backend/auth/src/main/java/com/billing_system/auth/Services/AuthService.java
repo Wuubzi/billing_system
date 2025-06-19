@@ -49,7 +49,7 @@ public class AuthService {
         this.valueOperations = valueOperations;
     }
 
-    public AuthResponseDTO Register(RegisterRequestDTO registerRequestDTO, HttpServletRequest request) throws JsonProcessingException {
+    public ResponseDTO Register(RegisterRequestDTO registerRequestDTO, HttpServletRequest request) throws JsonProcessingException {
         //verify if user exist in db
         Optional<Users> userEmailOptional = userRepository.findUsersByEmail(registerRequestDTO.getEmail());
         if(userEmailOptional.isPresent()){
@@ -80,7 +80,7 @@ public class AuthService {
         valueOperations.set(userSaved.getPhoneNumber(), code, 5, TimeUnit.MINUTES);
         //send message to queue of rabbit
         producer.sendVerificationCode(userSaved.getPhoneNumber(), code);
-        return getAuthResponseDTO("P-201", "Registration successful! A verification code has been sent to your registered WhatsApp number. Please enter the code to complete the process.", null, request);
+        return getResponseDTO("P-201", "Registration successful! A verification code has been sent to your registered WhatsApp number. Please enter the code to complete the process.", userSaved.getPhoneNumber(), request);
     }
 
     public AuthResponseDTO Login(LoginRequestDTO loginRequestDTO, HttpServletRequest request) {
@@ -120,11 +120,10 @@ public class AuthService {
             throw new UserNotExistException();
         }
         Users user = userOptional.get();
-        System.out.println("hola " + user.getEmail());
         String code = String.valueOf(codeGenerator.generateUniqueCode());
         valueOperations.set(user.getEmail(), code,5, TimeUnit.MINUTES);
         producer.sendResetPasswordCode(user.getEmail(), code);
-        return getResponseDTO("P-200", "A password reset code has been sent to your email. Please check your inbox and follow the instructions to securely reset your password.", request);
+        return getResponseDTO("P-200", "A password reset code has been sent to your email. Please check your inbox and follow the instructions to securely reset your password.", user.getEmail(), request);
     }
 
     public ResponseDTO VerifyResetPasswordCode(ResetPasswordVerifyCodeDTO resetPasswordVerifyCodeDTO, HttpServletRequest request){
@@ -142,7 +141,7 @@ public class AuthService {
         }
         valueOperations.getOperations().delete(user.getEmail());
         valueOperations.set(user.getEmail(), "valid", 5, TimeUnit.MINUTES);
-        return getResponseDTO("P-200", "The reset password code is valid. You can now proceed to reset your password.", request);
+        return getResponseDTO("P-200", "The reset password code is valid. You can now proceed to reset your password.", String.valueOf(user.getId_user()), request);
     }
 
     public ResponseDTO ChangePassword(ChangePasswordRequestDTO changePasswordRequestDTO, HttpServletRequest request){
@@ -166,12 +165,13 @@ public class AuthService {
           user.setPassword(encodedPassword);
           userRepository.save(user);
         }
-        return getResponseDTO("P-200", "Your password has been successfully updated. You can now log in with your new password.", request);
+        return getResponseDTO("P-200", "Your password has been successfully updated. You can now log in with your new password.", String.valueOf(user.getId_user()), request);
     }
-    private ResponseDTO getResponseDTO(String code, String message, HttpServletRequest request){
+    private ResponseDTO getResponseDTO(String code, String message, String identifier, HttpServletRequest request){
         ResponseDTO response = new ResponseDTO();
         response.setCode(code);
         response.setMessage(message);
+        response.setIdentifier(identifier);
         response.setUri(request.getRequestURI());
         response.setTimestamp(dateFormat.getDate());
         return response;

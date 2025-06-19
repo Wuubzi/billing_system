@@ -1,0 +1,47 @@
+<!-- pin.component.html -->
+<main class="w-full h-screen bg-blue-100 flex items-center justify-center">
+  <div class="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
+    <!-- Dynamic Title -->
+    @if (context === "register") {
+      <h2
+        *ngIf="context === 'register'"
+        class="text-xl font-semibold text-gray-800 mb-2"
+      >
+        Verify Your Phone Number
+      </h2>
+
+      <p *ngIf="context === 'register'" class="text-gray-600 mb-4">
+        We’ve sent a verification code to your phone. Please enter it to
+        complete your registration.
+      </p>
+    } @else {
+      <h2
+        *ngIf="context === 'reset'"
+        class="text-xl font-semibold text-gray-800 mb-2"
+      >
+        Verify Your Reset Code
+      </h2>
+      <p *ngIf="context === 'reset'" class="text-gray-600 mb-4">
+        We’ve sent a reset code to your email. Please enter it to reset your
+        password.
+      </p>
+    }
+
+    <!-- PIN Form -->
+    <form [formGroup]="pinForm" class="flex gap-2 justify-center">
+      <ng-container *ngFor="let _ of [].constructor(pinLength); let i = index">
+        <input
+          type="text"
+          [id]="'digit' + i"
+          [formControlName]="'digit' + i"
+          maxlength="1"
+          inputmode="decimal"
+          autocomplete="off"
+          class="h-16 w-12 border border-gray-300 rounded-lg text-center text-2xl font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          (input)="onInput(i)"
+          (keydown.backspace)="onBackspace(i)"
+        />
+      </ng-container>
+    </form>
+  </div>
+</main>

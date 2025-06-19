@@ -1,0 +1,8 @@
+@import "tailwindcss";
+@import "ngx-toastr/toastr";
+@theme {
+  --color-primary: #48505e;
+  --color-border: #d0d5dd;
+  --color-playholder: #667085;
+  --font-primary: "Inter", "sans-serif";
+}

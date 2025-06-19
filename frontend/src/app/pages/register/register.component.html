@@ -1,0 +1,153 @@
+<main class="flex p-5 justify-around items-center font-primary">
+  <figure class="w-1/4">
+    <img
+      class="w-full"
+      src="./assets/images/logo.svg"
+      alt="Kanban logo with a stylized K and check mark inside a blue hexagon"
+    />
+  </figure>
+  <div class="flex flex-col gap-2 justify-center items-center">
+    <figure class="w-15">
+      <img class="w-full" src="./assets/images/logo2.svg" alt="" />
+    </figure>
+    <h2 class="text-4xl">Create an account</h2>
+    <form
+      class="flex flex-col gap-1"
+      [formGroup]="registerForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label class="text-lg text-primary" for="name">Name*</label>
+      <input
+        class="w-full px-4 py-2 border-2 border-border rounded-lg text-playholder"
+        type="text"
+        id="name"
+        name="Name"
+        placeholder="Enter your Name"
+        formControlName="name"
+      />
+      @if (name?.invalid && name?.touched) {
+      <p class="text-red-500">Name is required</p>
+      }
+      <label class="text-lg text-primary" for="lastname">Last Name</label>
+      <input
+        class="w-full px-4 py-2 border-2 border-border rounded-lg text-playholder"
+        type="text"
+        id="lastname"
+        name="lastName"
+        placeHolder="Enter your Last Name"
+        formControlName="lastName"
+      />
+
+      <label class="text-lg text-primary" for="email">Email*</label>
+      <input
+        class="w-full px-4 py-2 border-2 border-border rounded-lg text-playholder"
+        type="email"
+        id="email"
+        name="Email"
+        placeholder="Enter your Email"
+        formControlName="email"
+      />
+      @if (email?.invalid && email?.touched) { @if (email?.hasError("required"))
+      {
+      <p class="text-red-500">Email is required</p>
+      } @if (email?.hasError("email")) {
+      <p class="text-red-500">Email is not valid</p>
+      } }
+
+      <label class="text-lg text-primary" for="phonenumber"
+        >Phone Number*</label
+      >
+      <input
+        class="w-full px-4 py-2 border-2 border-border rounded-lg text-playholder"
+        id="phonenumber"
+        type="tel"
+        name="phonenumber"
+        placeholder="Enter your Phone Number"
+        formControlName="phone"
+      />
+      @if (phone?.invalid && phone?.touched) { @if (phone?.hasError("required"))
+      {
+      <p class="text-red-500">Phone number is required</p>
+      } @if (phone?.hasError("minlength")) {
+      <p class="text-red-500">Phone number must be at least 10 digits</p>
+      } @if (phone?.hasError("maxlength")) {
+      <p class="text-red-500">Phone number must be at most 10 digits</p>
+      } @if (phone?.hasError("pattern")) {
+      <p class="text-red-500">Phone number only allow numbers</p>
+      } }
+      <label class="text-lg text-primary" for="address">Address</label>
+      <input
+        class="w-full px-4 py-2 border-2 border-border rounded-lg text-playholder"
+        type="text"
+        id="address"
+        name="Address"
+        placeholder="Enter your Address"
+        formControlName="address"
+      />
+
+      <label class="text-lg text-primary" for="password">Password*</label>
+      <input
+        class="w-full px-4 py-2 border-2 border-border rounded-lg text-playholder"
+        type="password"
+        id="password"
+        name="Password"
+        placeholder="Enter your Password"
+        formControlName="password"
+      />
+      @if (password?.invalid && password?.touched) { @if
+      (password?.hasError("required")) {
+      <p class="text-red-500">Password is required</p>
+      } @if (password?.hasError("minlength")) {
+      <p class="text-red-500">Password must be at least 8 characters</p>
+      } @if (password?.hasError("maxlength")) {
+      <p class="text-red-500">Password must be at most 24 characters</p>
+      } @if (password?.hasError("pattern")) {
+      <p class="text-red-500 w-100">
+        Password must contain at least one uppercase letter,two number, and one
+        special character
+      </p>
+      } }
+
+      <label class="text-lg text-primary" for="confirm-password"
+        >Confirm password*</label
+      >
+      <input
+        class="w-full px-4 py-2 border-2 border-border rounded-lg text-playholder"
+        id="confirm-password"
+        type="password"
+        name="Confirm-password"
+        placeholder="Confirm your Password"
+        formControlName="confirmPassword"
+      />
+      @if (confirmPassword?.invalid && confirmPassword?.touched) { @if
+      (confirmPassword?.hasError("required")) {
+      <p class="text-red-500">Confirm password is required</p>
+      } @if (confirmPassword?.hasError("minlength")) {
+      <p class="text-red-500">Confirm password must be at least 8 characters</p>
+      } @if (confirmPassword?.hasError("maxlength")) {
+      <p class="text-red-500">Confirm password must be at most 24 characters</p>
+      } @if (confirmPassword?.hasError("pattern")) {
+      <p class="text-red-500 w-100">
+        Confirm password must contain at least one uppercase letter,two number,
+        and one special character
+      </p>
+      } @if (confirmPassword?.hasError("passwordMismatch")) {
+      <p class="text-red-500">Passwords do not match</p>
+      } }
+      <button
+        [ngClass]="{
+          'bg-blue-600 hover:scale-110 cursor-pointer': registerForm.valid,
+          'bg-gray-400 cursor-not-allowed opacity-60': registerForm.invalid,
+        }"
+        class="mt-2 w-full py-2 rounded-lg text-white transition-all"
+        type="submit"
+        [disabled]="registerForm.invalid"
+      >
+        Get Started
+      </button>
+    </form>
+    <p class="text-primary">
+      Already have an account? <a href="/login" class="text-blue-500">Log in</a>
+    </p>
+  </div>
+</main>

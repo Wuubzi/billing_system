@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factura</title>
+    <link rel="stylesheet" th:href="@{/css/invoice.css}">
+</head>
+<body>
+<div class="invoice-container">
+    <!-- Header -->
+    <div class="invoice-header">
+        <div class="invoice-title">
+            <h1>INVOICE</h1>
+            <div class="invoice-number">
+                N°: <span th:text="${invoice.number ?: '01'}">01</span>
+            </div>
+        </div>
+        <div class="company-logo"></div>
+    </div>
+
+    <!-- Client and Company Data -->
+    <div class="invoice-details">
+        <div class="client-data">
+            <div class="section-title">Client Data</div>
+            <div class="data-field">
+                <strong th:text="${invoice.client.name ?: 'Felix Castro'}">Felix Castro</strong>
+            </div>
+            <div class="data-field" th:text="${invoice.client.address ?: 'Calle Francisco Sosa 509'}">
+                Calle Francisco Sosa 509
+            </div>
+            <div class="data-field" th:text="${invoice.client.phone ?: '55-264-5578'}">
+                55-264-5578
+            </div>
+            <div class="data-field" th:text="${invoice.client.location ?: 'Calle Cuajimalpa S/L Cuajimalpa Lugar'}">
+                Calle Cuajimalpa S/L Cuajimalpa Lugar
+            </div>
+        </div>
+
+        <div class="company-data">
+            <div class="section-title">Company Data</div>
+            <div class="data-field">
+                <strong th:text="${invoice.company.name ?: 'Jhon Castro'}">Jhon Castro</strong>
+            </div>
+            <div class="data-field" th:text="${invoice.company.address ?: 'Calle Cuajimalpa 123'}">
+                Calle Cuajimalpa 123
+            </div>
+            <div class="data-field" th:text="${invoice.company.phone ?: '55-264-5578'}">
+                55-264-5578
+            </div>
+            <div class="data-field" th:text="${invoice.company.location ?: 'Calle Cuajimalpa S/L Cuajimalpa Lugar'}">
+                Calle Cuajimalpa S/L Cuajimalpa Lugar
+            </div>
+        </div>
+    </div>
+
+    <!-- Invoice Items Table -->
+    <table class="invoice-table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${invoice.items ?: defaultItems}">
+            <td th:text="${item.name}">Diseño de Logotipo</td>
+            <td th:text="${item.quantity}">01</td>
+            <td th:text="${item.price + ' €'}">30 €</td>
+        </tr>
+
+        <!-- Default items if no data -->
+        <tr th:if="${#lists.isEmpty(invoice.items)}">
+            <td>Diseño de Logotipo</td>
+            <td>01</td>
+            <td>30 €</td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(invoice.items)}">
+            <td>Presentación</td>
+            <td>01</td>
+            <td>30 €</td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(invoice.items)}">
+            <td>Estudio de marketing</td>
+            <td>01</td>
+            <td>30 €</td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(invoice.items)}">
+            <td>Formación</td>
+            <td>01</td>
+            <td>30 €</td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(invoice.items)}">
+            <td>Recursos</td>
+            <td>01</td>
+            <td>30 €</td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(invoice.items)}">
+            <td>Recursos</td>
+            <td>01</td>
+            <td>30 €</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Footer with Totals -->
+    <div class="invoice-footer">
+        <div class="totals-section">
+            <table class="totals-table">
+                <tr>
+                    <td>IVA</td>
+                    <td th:text="${invoice.taxRate ?: '21'} + '%'">18 %</td>
+                    <td th:text="${invoice.taxAmount ?: '200'} + ' €'">200 €</td>
+                </tr>
+                <tr class="total-final">
+                    <td>TOTAL</td>
+                    <td></td>
+                    <td th:text="${invoice.total ?: '400'} + ' €'">400 €</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

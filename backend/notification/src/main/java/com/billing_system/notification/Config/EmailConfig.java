@@ -15,7 +15,6 @@ public class EmailConfig {
         mailSender.setUsername("reservavuelos9@gmail.com");
         mailSender.setPassword("vnsw zheo npec dozi");
 
-        // Additional properties
         java.util.Properties properties = mailSender.getJavaMailProperties();
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
